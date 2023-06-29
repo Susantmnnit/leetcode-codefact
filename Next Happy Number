@@ -1,0 +1,52 @@
+//{ Driver Code Starts
+#include<bits/stdc++.h> 
+using namespace std;
+
+// } Driver Code Ends
+class Solution{
+public:
+    int nwxt_num(int n){
+        int sum=0;
+        while(n>0){
+            int digit=n%10;
+            sum=sum+(digit*digit);
+            n=n/10;
+        }
+        return sum;
+    }
+    bool isHappy(int n){
+        unordered_map<int,int>mp;
+        while(mp.find(n)==mp.end()){
+            if(n==1){
+                return true;
+            }
+            mp[n]=1;
+            n=nwxt_num(n);
+        }
+        return false;
+    }
+    int nextHappy(int N){
+        for(int i=N+1;i<100005;i++){
+            if(isHappy(i)){
+                return i;
+            }
+        }
+        return -1;
+    }
+};
+
+//{ Driver Code Starts.
+int main() 
+{ 
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int N;
+        cin>>N;
+        Solution ob;
+        cout << ob.nextHappy(N) << endl;
+    }
+    return 0; 
+}
+// } Driver Code Ends
