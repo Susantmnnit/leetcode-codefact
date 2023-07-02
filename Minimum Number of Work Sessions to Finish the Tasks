@@ -1,0 +1,36 @@
+class Solution {
+public:
+    void solve(int index,int &ans,vector<int>&tasks,vector<int>&w,int st){
+        if(index>=tasks.size()){
+            int temp=w.size();
+            // cout<<ans<<"->"<<temp<<endl;
+            for(int i=0;i<w.size();i++){
+                cout<<w[i]<<" ";
+            }
+            cout<<endl;
+            ans=min(ans,temp);
+            return;
+        }
+
+        if(w.size()>ans)
+            return;
+
+        for(int i=0;i<w.size();i++){
+            if(w[i]+tasks[index]<=st){
+                w[i]+=tasks[index];
+                solve(index+1,ans,tasks,w,st);
+                w[i]-=tasks[index];
+            }
+        }
+
+        w.push_back(tasks[index]);
+        solve(index+1,ans,tasks,w,st);
+        w.pop_back();
+    }
+    int minSessions(vector<int>& tasks, int st) {
+        vector<int>wSes;
+        int ans=INT_MAX;
+        solve(0,ans,tasks,wSes,st);
+        return ans;
+    }
+};
