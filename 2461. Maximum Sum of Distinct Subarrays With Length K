@@ -1,0 +1,33 @@
+class Solution {
+public:
+    long long maximumSubarraySum(vector<int>& nums, int k) {
+        long long sum=0,ans=0;
+        int i=0,j=0;
+        int hash[100005]={0};
+        while(j<nums.size()){
+            hash[nums[j]]++;
+            if(hash[nums[j]]>=2){
+                if(i<nums.size()){
+                    hash[nums[i]]--;
+                    sum-=nums[i];
+                    hash[nums[j]]--;
+                }
+                else{
+                    break;
+                }
+                i++;
+            }
+            else{
+                sum+=nums[j];
+                if(j-i+1==k){
+                    ans=max(ans,sum);
+                    sum-=nums[i];
+                    hash[nums[i]]--;
+                    i++;
+                }
+                j++;
+            }
+        }
+        return ans;
+    }
+};
