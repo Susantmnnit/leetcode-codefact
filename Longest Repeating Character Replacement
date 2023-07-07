@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        int hash[26]={0};
+        int i=0,j=0,maxFq=0,ans=INT_MIN;
+        while(j<s.size()){
+            hash[s[j]-'A']++;
+            int maxFq=*max_element(hash,hash+26);
+            if(j-i+1-maxFq<=k){
+                ans=max(ans,j-i+1);
+                j++;
+            }
+            else{
+                hash[s[i]-'A']--;
+                hash[s[j]-'A']--;
+                i++;
+            }
+        }
+        return ans;
+    }
+};
