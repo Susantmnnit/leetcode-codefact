@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int maxConsecutiveAnswers(string s, int k) {
+        int maxFq=0,st=0,e=0,Tcnt=0,Fcnt=0,ans=INT_MIN;
+        while(e<s.size()){
+            if(s[e]=='T'){
+                Tcnt++;
+            }
+            if(s[e]=='F'){
+                Fcnt++;
+            }
+            maxFq=max(Tcnt,Fcnt);
+            if(e-st+1-maxFq<=k){
+                ans=max(ans,e-st+1);
+                e++;
+            }
+            else{
+                if(s[st]=='T'){
+                   Tcnt--;
+                }
+                if(s[st]=='F'){
+                    Fcnt--;
+                }
+                if(s[e]=='T'){
+                    Tcnt--;
+                }
+                if(s[e]=='F'){
+                    Fcnt--;
+                }
+                st++;
+            }
+        }
+        return ans;
+    }
+};
