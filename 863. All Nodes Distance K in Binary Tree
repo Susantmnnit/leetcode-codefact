@@ -1,0 +1,39 @@
+class Solution {
+    unordered_map<TreeNode*,TreeNode*> parent;
+    void createParent(TreeNode* curr,TreeNode* par){
+        if(!curr)   return;
+        
+        parent[curr] = par;
+        createParent(curr->left,curr);
+        createParent(curr->right,curr);
+    }
+public:
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        createParent(root,NULL);
+        
+        queue<TreeNode*> q;
+        q.push(target);
+        unordered_map<TreeNode*,bool> visited;
+        
+        while(!q.empty() and k){
+            k-=1;
+            int size = q.size();
+            for(int i=0;i<size;++i){
+                TreeNode* curr = q.front();
+                q.pop();
+                visited[curr]=true;;
+                
+                if( curr->left && !visited[curr->left])   q.push(curr->left);
+                if( curr->right && !visited[curr->right] )  q.push(curr->right);
+                if( parent[curr] && !visited[parent[curr]]) q.push(parent[curr]);
+            }
+        }
+        vector<int> ans;
+        while(!q.empty()){
+            TreeNode* curr = q.front();
+            q.pop();
+            ans.push_back(curr->val);
+        }
+        return ans;
+    }
+};
