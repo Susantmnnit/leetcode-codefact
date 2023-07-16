@@ -1,0 +1,35 @@
+class Solution {
+public:
+    bool solve(vector<int>& matchsticks,vector<int>&sqside,int idx,int target){
+        if(idx>=matchsticks.size()){
+            if(sqside[0]==sqside[1] && sqside[1]==sqside[2] && sqside[2]==sqside[3]){
+                return true;
+            }
+            return false;
+        }
+
+        for(int i=0;i<4;i++){
+            if(sqside[i]+matchsticks[idx]>target){
+                continue;
+            }
+            sqside[i]+=matchsticks[idx];
+            if(solve(matchsticks,sqside,idx+1,target)){
+                return true;
+            }
+            sqside[i]-=matchsticks[idx];
+        }
+
+        return false;
+    }
+    bool makesquare(vector<int>& matchsticks) {
+        int sum;
+        sum=accumulate(matchsticks.begin(),matchsticks.end(),0);
+        int target=sum/4;
+        if(sum%4!=0){
+            return false;
+        }
+        vector<int>sqside(4,0);
+        sort(matchsticks.begin(),matchsticks.end(),greater<int>());
+        return solve(matchsticks,sqside,0,target);
+    }
+};
