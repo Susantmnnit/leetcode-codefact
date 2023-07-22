@@ -1,0 +1,109 @@
+By Recursion gives TLE
+class Solution {
+public:
+    bool isPossibleMove(int row,int col,int n){
+        if(row<0 || col<0 || row >=n || col>=n ){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+    double moveCnt(int n, int k, int row, int col){
+        if( row<0 || col<0 || row>=n || col>=n){
+            return 0;
+        }
+        if(k==0)
+            return 1;
+        double cnt=0;
+            if(isPossibleMove(row-2,col-1,n)){
+                cnt+=moveCnt(n,k-1,row-2,col-1)/8.0;
+            }
+            if(isPossibleMove(row-2,col+1,n)){
+                cnt+=moveCnt(n,k-1,row-2,col+1)/8.0;
+            }
+            if(isPossibleMove(row-1,col-2,n)){
+                cnt+=moveCnt(n,k-1,row-1,col-2)/8.0;
+            }
+            if(isPossibleMove(row-1,col+2,n)){
+                cnt+=moveCnt(n,k-1,row-1,col+2)/8.0;
+            }
+            if(isPossibleMove(row+1,col-2,n)){
+                cnt+=moveCnt(n,k-1,row+1,col-2)/8.0;
+            }
+            if(isPossibleMove(row+1,col+2,n)){
+                cnt+=moveCnt(n,k-1,row+1,col+2)/8.0;
+            }
+            if(isPossibleMove(row+2,col-1,n)){
+                cnt+=moveCnt(n,k-1,row+2,col-1)/8.0;
+            }
+            if(isPossibleMove(row+2,col+1,n)){
+                cnt+=moveCnt(n,k-1,row+2,col+1)/8.0;
+            }
+        return cnt;
+    }
+    double knightProbability(int n, int k, int row, int col) {
+        if(k==0){
+            return 1;
+        }
+        return moveCnt(n,k,row,col);
+        
+    }
+};
+By DP:
+class Solution {
+public:
+    bool isPossibleMove(int row,int col,int n){
+        if(row<0 || col<0 || row >=n || col>=n ){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+    double moveCnt(int n, int k, int row, int col,unordered_map<string,double>&mp){
+        if( !isPossibleMove(row,col,n) ){
+            return 0;
+        }
+        if(k==0)
+            return 1;
+        string s=to_string(row)+"*"+to_string(col)+"#"+to_string(k);
+        if(mp.find(s)!=mp.end())
+            return mp[s];
+        double cnt=0;
+            if(isPossibleMove(row-2,col-1,n)){
+                cnt+=moveCnt(n,k-1,row-2,col-1,mp)/8.0;
+            }
+            if(isPossibleMove(row-2,col+1,n)){
+                cnt+=moveCnt(n,k-1,row-2,col+1,mp)/8.0;
+            }
+            if(isPossibleMove(row-1,col-2,n)){
+                cnt+=moveCnt(n,k-1,row-1,col-2,mp)/8.0;
+            }
+            if(isPossibleMove(row-1,col+2,n)){
+                cnt+=moveCnt(n,k-1,row-1,col+2,mp)/8.0;
+            }
+            if(isPossibleMove(row+1,col-2,n)){
+                cnt+=moveCnt(n,k-1,row+1,col-2,mp)/8.0;
+            }
+            if(isPossibleMove(row+1,col+2,n)){
+                cnt+=moveCnt(n,k-1,row+1,col+2,mp)/8.0;
+            }
+            if(isPossibleMove(row+2,col-1,n)){
+                cnt+=moveCnt(n,k-1,row+2,col-1,mp)/8.0;
+            }
+            if(isPossibleMove(row+2,col+1,n)){
+                cnt+=moveCnt(n,k-1,row+2,col+1,mp)/8.0;
+            }
+            mp[s]=cnt;
+        return cnt;
+    }
+    double knightProbability(int n, int k, int row, int col) {
+        if(k==0){
+            return 1;
+        }
+        unordered_map<string,double>mp;
+        return moveCnt(n,k,row,col,mp);
+        
+    }
+};
