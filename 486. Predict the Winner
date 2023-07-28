@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int solve(vector<int>& nums,int i,int n,int x){
+        if(i>n){
+            return 0;
+        }
+
+        if(x==0){
+            int p1=nums[i]+solve(nums,i+1,n,1);
+            int p11=nums[n]+solve(nums,i,n-1,1);
+            return max(p1,p11);
+        }
+        else{
+            int p1=solve(nums,i+1,n,0);
+            int p11=solve(nums,i,n-1,0);
+            return min(p1,p11);
+        }
+    }
+    bool PredictTheWinner(vector<int>& nums) {
+        int n=nums.size(),p1=0,p2=0;
+        p2=accumulate(nums.begin(),nums.end(),0);
+        p1=solve(nums,0,n-1,0);
+        p2=p2-p1;
+        if(p1>=p2)
+            return true;
+        return false;
+    }   
+};
